@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{user.username}} Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 col-12 mb-3">
+    <div class="border rounded p-3 w-100 shadow-sm">
+      <div class="position-relative">
+        <form action="/users/{{user.username}}/delete" method="POST"><button title="Delete Profile"
+            class="btn btn-outline-danger btn-sm position-absolute top-0 end-0">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+        </form>
+      </div>
+      <h1 class="text-center mb-3">{{user.username}}</h1>
+      <div class="fs-5 mb-3">
+        <div>
+          <span class="fw-bold">Name:</span> {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div>
+          <span class="fw-bold">Email:</span> {{ user.email }}
+        </div>
+      </div>
+      <a href="/users/{{user.username}}/feedback/add" class="btn btn-primary w-100">Add Feedback</a>
+
+    </div>
+  </div>
+  <div class="col">
+    <div class="border rounded p-3 shadow-sm">
+      <!-- User Feedback Column -->
+      <div class="d-flex flex-column flex-column-reverse">
+        {% if feedback %}
+        {% for fb in feedback %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="position-relative">
+              <a class="btn btn-outline-warning btn-sm position-absolute top-0 end-0 mx-5"
+                href="/feedback/{{fb.id}}/update">
+                <i title="Edit Feedback" class="bi bi-pencil-fill"></i>
+              </a>
+              <form action=" /feedback/{{fb.id}}/delete" method="POST"><button title="Delete Feedback"
+                  class="btn btn-outline-danger btn-sm position-absolute top-0 end-0">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </form>
+            </div>
+            <h5 class="card-title">
+              {{fb.title}}
+            </h5>
+            <p class="card-text mt-3">{{fb.content}}</p>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="text-center">No feedback exists.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
